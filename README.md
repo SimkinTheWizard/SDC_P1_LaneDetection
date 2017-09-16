@@ -41,7 +41,7 @@ The detection algorithm consists of several step beginning from the original ima
   ![image1]
 * __Getting rid of glithces on the edges by blurring the image__
 
-  The image is filtered before calculating the gradients in order to remove small glitches. To do this operation I used a kernel of size 5x5. [image2] Shows the result of this operation.
+  The image is filtered before calculating the gradients in order to remove small glitches. To do this operation I used a kernel of size 5x5. [image2] Shows the result of this operation. **Edit after review**: I decreased the gaussian kernel size to 3x3.
   
   ![image2]
 * __Edge detection and thresholding with Canny edge detector__
@@ -74,6 +74,8 @@ The detection algorithm consists of several step beginning from the original ima
   ![image9] 
   
   Another change I made in the function is for the challenge video. In the challenge video there are a lot of shadows and sudden changes on tarmac. To ignore these changes I put a limit to the angles of the lines that will be drawn. I did this by fitting a second line `y=m*x+n` to the x and y values and discarded the values that fell in a certain range.
+  **Edit after review:**
+  I modified the *draw_line()* function to group the detected lines with similar slopes. After the lines are groupped similar lines a polygon that encapsulates the the lines are drawn. This way, a single line, per lane line, is drawn on image. 
   
   
 ### 2. Potential shortcomings with the current pipeline
@@ -91,3 +93,5 @@ I also neglected color information on the image, which is a very useful informat
 
 Finally there is some shape information we did not employ here. We all know that lane lines are within a certain thickness range. This thickness information can be used too. Lines found with the Hough transform can be grouped together based on their distances in the x-dimension. With this grouping we can find the thicknesses of detected lines, and accept/reject some of them according to this criteria. 
 
+**Edit after review** 
+I groupped the lines however I did not apply the thickness criterion.
